@@ -19,32 +19,27 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "Albina Tileubergen-Thomas help from Daniel(instructor), Cheria Artis"
 
 import random
 import sys
 
 
 def create_mimic_dict(filename):
-    """Returns a dict mapping each word to a list of words which follow it.
-    For example:
-        Input: "I am a software developer, and I don't care who knows"
-        Output:
-            {
-                "" : ["I"],
-                "I" : ["am", "don't"],
-                "am": ["a"],
-                "a": ["software"],
-                "software" : ["developer,"],
-                "developer," : ["and"],
-                "and" : ["I"],
-                "don't" : ["care"],
-                "care" : ["who"],
-                "who" : ["knows"]
-            }
-    """
-    # +++your code here+++
-    pass
+
+    mimic_dict = {}
+    f = open(filename, 'r')
+    text = f.read()
+    words = text.split()
+    prev_word = ''
+    for word in words:
+        if prev_word not in mimic_dict:
+            mimic_dict[prev_word] = [word]
+        else:
+            mimic_dict[prev_word].append(word)
+        prev_word = word
+    # print(mimic_dict)
+    return mimic_dict
 
 
 def print_mimic(mimic_dict, start_word):
@@ -55,8 +50,13 @@ def print_mimic(mimic_dict, start_word):
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+    word = start_word
+    for _ in range(200):
+        print(word, end=' ')
+        next_word_list = mimic_dict.get(word)
+        if not next_word_list:
+            next_word_list = mimic_dict[start_word]
+        word = random.choice(next_word_list)
 
 
 # Provided main(), calls mimic_dict() and print_mimic()
